@@ -6,7 +6,6 @@ import { getAlbum, selectAlbum } from "../store/albumSlice";
 const Search = () => {
   const album = useSelector(selectAlbum)
   return <div>
-    {album?.author?.name?.label}
   </div>;
 };
 export const getServerSideProps = async () => {

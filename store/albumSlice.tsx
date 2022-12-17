@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import getMusicData from "../pages/api/album";
 import { RootState } from "../pages/_app";
 
-interface MusicDataProps {
+export interface MusicDataProps {
   "im:name": {
     label: string;
   };
@@ -82,7 +82,7 @@ interface AlbumProps {
   loading: boolean;
   album: AlbumDataProps | object;
   error: object;
-  searchValue:string;
+  searchValue: string;
 }
 const initialState: AlbumProps = {
   loading: false,
@@ -151,7 +151,7 @@ const initialState: AlbumProps = {
       },
     ],
   },
-  searchValue:"",
+  searchValue: "",
   error: {},
 };
 
@@ -161,9 +161,9 @@ export const albumSlice = createSlice({
   name: "album",
   initialState,
   reducers: {
-    addsearch: (state,{payload})=>{
-      state.searchValue=payload
-    }
+    addsearch: (state, { payload }) => {
+      state.searchValue = payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -181,4 +181,4 @@ export const albumSlice = createSlice({
   },
 });
 
-export const selectAlbum = (state: RootState|any) => state.albumData.album;
+export const selectAlbum = (state: RootState | any) => state.albumData.album;

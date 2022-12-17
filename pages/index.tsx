@@ -4,6 +4,7 @@ import { getAlbum, selectAlbum } from "../store/albumSlice";
 
 const Home = () => {
   const album = useSelector(selectAlbum)
+  
   return <div>
         {album?.title?.label}
   </div>;
