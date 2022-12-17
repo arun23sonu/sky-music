@@ -1,14 +1,14 @@
+import React from "react";
 import { useSelector } from "react-redux";
 import getStore from "../store";
 import { getAlbum, selectAlbum } from "../store/albumSlice";
 
-const Home = () => {
+const Search = () => {
   const album = useSelector(selectAlbum)
   return <div>
-        {album?.title?.label}
+    {album?.author?.name?.label}
   </div>;
 };
-
 export const getServerSideProps = async () => {
   const store = getStore();
   await store.dispatch(getAlbum());
@@ -18,4 +18,4 @@ export const getServerSideProps = async () => {
     },
   };
 };
-export default Home;
+export default Search;

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../pages";
 import getMusicData from "../pages/api/album";
+import { RootState } from "../pages/_app";
 
 interface MusicDataProps {
   "im:name": {
@@ -82,6 +82,7 @@ interface AlbumProps {
   loading: boolean;
   album: AlbumDataProps | object;
   error: object;
+  searchValue:string;
 }
 const initialState: AlbumProps = {
   loading: false,
@@ -150,6 +151,7 @@ const initialState: AlbumProps = {
       },
     ],
   },
+  searchValue:"",
   error: {},
 };
 
@@ -158,7 +160,11 @@ export const getAlbum = createAsyncThunk("album/getAlbum", getMusicData);
 export const albumSlice = createSlice({
   name: "album",
   initialState,
-  reducers: {},
+  reducers: {
+    addsearch: (state,{payload})=>{
+      state.searchValue=payload
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAlbum.pending, (state) => {
@@ -175,4 +181,4 @@ export const albumSlice = createSlice({
   },
 });
 
-export const selectAlbum = (state: RootState | any) => state.albumData.album;
+export const selectAlbum = (state: RootState|any) => state.albumData.album;
