@@ -85,7 +85,7 @@ const SearchBar = () => {
           className="search"
         ></input>
         <button type="submit">
-          <FaSearch size={15} />{" "}
+          <FaSearch size={15} />
         </button>
       </Link>
     </div>

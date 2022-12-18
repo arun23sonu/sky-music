@@ -1,10 +1,16 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { MusicDataProps, selectAlbum } from "../../../../store/albumSlice";
-import { StyledAlbumContainer, StyledAlbumTitle } from "./AlbumTile.styles";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { albumSlice, MusicDataProps } from "../../../../store/albumSlice";
+import { StyledAlbumTitle } from "./AlbumTile.styles";
 
-const AlbumTile = () => {
-  const albums = useSelector(selectAlbum);
+interface AlbumTileProps {
+  name: string;
+  image: string;
+  filteredData?: MusicDataProps | undefined | any;
+  hide?: boolean;
+  id:string
+}
+const AlbumTile = ({ name, image, id, filteredData, hide }: AlbumTileProps) => {
   const truncateString = (str: string, num: number) => {
     if (str.length > num) {
       return str.slice(0, num) + "...";
@@ -12,22 +18,40 @@ const AlbumTile = () => {
       return str;
     }
   };
+  const dispatch = useDispatch();
+  const [addFavorite, setAddFavorite] = useState(true);
   return (
-    <StyledAlbumContainer data-testid="album">
-      {albums?.entry?.map((album: MusicDataProps) => {
-        return (
-          <StyledAlbumTitle>
+    <StyledAlbumTitle key={id}>
+      <img src={image} className="album" alt={name} />
+      <h5>{truncateString(name, 30)}</h5>
+      <h3> {truncateString(name, 30)}</h3>
+
+      {hide ? null : (
+        <div className="heart">
+          {addFavorite ? (
             <img
-              src={album["im:image"][2].label}
-              className="album"
-              alt={album.title.label}
+              src={"heart.svg"}
+              className="heart-icon"
+              onClick={() => {
+                dispatch(albumSlice.actions.addfavorite(filteredData));
+                setAddFavorite(false);
+              }}
             />
-            <h5>{truncateString(album["im:name"].label, 30)}</h5>
-            <h3> {truncateString(album.title.label, 30)}</h3>
-          </StyledAlbumTitle>
-        );
-      })}
-    </StyledAlbumContainer>
+          ) : (
+            <img
+              src={"red-heart.svg"}
+              className="heart-icon"
+              onClick={() => {
+                dispatch(
+                  albumSlice.actions.removefavorite(filteredData.id.label)
+                );
+                setAddFavorite(true);
+              }}
+            />
+          )}
+        </div>
+      )}
+    </StyledAlbumTitle>
   );
 };
 

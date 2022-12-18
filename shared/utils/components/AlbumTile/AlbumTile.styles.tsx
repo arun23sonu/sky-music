@@ -5,6 +5,7 @@ const StyledAlbumTitle = styled.div`
   width: 14rem;
   display: flex;
   flex-direction: column;
+  position: relative;
   .album {
     border-radius: 10px;
     padding-bottom: 1em;
@@ -16,6 +17,24 @@ const StyledAlbumTitle = styled.div`
   h5 {
     color: #282f35;
     font-size: 1rem;
+  }
+  .heart-icon {
+    height: 20px;
+    width: 20px;
+  }
+  .heart {
+    z-index: 1;
+    background-color: #f0f2f5;
+    position: absolute;
+    right: 17px;
+    top: 17.5px;
+    width: 32px;
+    height: 32px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
   }
 `;
 const StyledAlbumContainer = styled.div`

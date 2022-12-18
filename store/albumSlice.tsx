@@ -83,6 +83,7 @@ interface AlbumProps {
   album: AlbumDataProps | object;
   error: object;
   searchValue: string;
+  favorite:Array<object>;
 }
 const initialState: AlbumProps = {
   loading: false,
@@ -151,6 +152,7 @@ const initialState: AlbumProps = {
       },
     ],
   },
+  favorite:[],
   searchValue: "",
   error: {},
 };
@@ -164,6 +166,12 @@ export const albumSlice = createSlice({
     addsearch: (state, { payload }) => {
       state.searchValue = payload;
     },
+    addfavorite: (state, {payload})=>{
+      state.favorite=[...state.favorite, payload]
+    },
+    removefavorite: (state, {payload})=>{
+      state.favorite= state.favorite.filter((album:MusicDataProps | any)=> album.id.label !== payload)
+    }
   },
   extraReducers: (builder) => {
     builder
