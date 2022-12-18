@@ -8,9 +8,10 @@ interface AlbumTileProps {
   image: string;
   filteredData?: MusicDataProps | undefined | any;
   hide?: boolean;
-  id:string
+  id: string;
+  artist: string
 }
-const AlbumTile = ({ name, image, id, filteredData, hide }: AlbumTileProps) => {
+const AlbumTile = ({ name, image, id, artist, filteredData, hide }: AlbumTileProps) => {
   const truncateString = (str: string, num: number) => {
     if (str.length > num) {
       return str.slice(0, num) + "...";
@@ -21,10 +22,10 @@ const AlbumTile = ({ name, image, id, filteredData, hide }: AlbumTileProps) => {
   const dispatch = useDispatch();
   const [addFavorite, setAddFavorite] = useState(true);
   return (
-    <StyledAlbumTitle key={id}>
+    <StyledAlbumTitle>
       <img src={image} className="album" alt={name} />
       <h5>{truncateString(name, 30)}</h5>
-      <h3> {truncateString(name, 30)}</h3>
+      <h3> {truncateString(artist, 30)}</h3>
 
       {hide ? null : (
         <div className="heart">

@@ -1,54 +1,120 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../pages/_app";
+import AlbumTile from "../../shared/utils/components/AlbumTile/AlbumTile";
+import { CATEGORIES } from "../../shared/utils/Constant/headerOptions";
 import { MusicDataProps, selectAlbum } from "../../store/albumSlice";
+import {
+  StyledAdvancedSearch,
+  StyledSearchDetail,
+  StyledTrendingSearch,
+} from "./SearchResult.styles";
 
-const Result = ({ title, filter }: any) => {
+interface CategoryProps {
+  name: string;
+  id: number;
+  key: string;
+}
+
+const Trending = () => {
+  const album = useSelector(selectAlbum);
+  const albumData = album?.entry;
+  return (
+    <StyledTrendingSearch>
+      <h2>Trending Searches</h2>
+      <div className="trending">
+        {albumData?.slice(7, 13)?.map((album: MusicDataProps) => {
+          return (
+            <AlbumTile
+              name={album["im:name"].label}
+              hide={true}
+              artist={album["im:artist"].label}
+              image={album["im:image"][2].label}
+              id={album.id.label}
+            />
+          );
+        })}
+      </div>
+    </StyledTrendingSearch>
+  );
+};
+interface SearchDetailProps {
+  filter: string;
+}
+const SearchDetail = ({ filter }: SearchDetailProps) => {
+  const albums = useSelector(selectAlbum);
   const { searchValue } = useSelector(
     (state: RootState | any) => state.albumData
   );
-  const album = useSelector(selectAlbum);
-  const results = album?.entry;
   return (
-    <div style={{width:"500px"}}>
-      <h1>{title}</h1>
-      <div>
-        {results
-          .filter((result: any) =>
-            result[filter].label
-              .toLowerCase()
-              .includes(searchValue.toLowerCase())
-          )
-          .map((album: MusicDataProps) => {
-            return (
-              <div>
-                <img
-                  src={album["im:image"][2].label}
-                  alt={album["im:name"].label}
-                  height="100"
-                />
-                <h6>{album["im:name"].label}</h6>
-              </div>
-            );
-          })}
-      </div>
-    </div>
+    <StyledSearchDetail>
+      {albums?.entry
+        ?.filter((albumFilter: MusicDataProps | any) =>
+          albumFilter[filter].label
+            .toLowerCase()
+            .includes(searchValue.toLowerCase())
+        )
+        .map((album: MusicDataProps) => {
+          return (
+            <div className="content">
+              <img
+                src={album["im:image"][2].label}
+                height="70px"
+                style={{
+                  borderRadius: filter === "im:artist" ? "50px" : "10px",
+                }}
+              />
+              {filter === "im:name" && (
+                <div className="song">
+                  <h4>{album["im:name"].label}</h4>
+                  <div className="head">Song</div>
+                </div>
+              )}
+              {filter === "im:artist" && (
+                <div className="song">
+                  <h4>{album["im:artist"].label}</h4>
+                  <div className="head">Artist</div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+    </StyledSearchDetail>
   );
 };
 
+const AdvancedSearch = () => {
+  const { searchValue } = useSelector(
+    (state: RootState | any) => state.albumData
+  );
+
+  return (
+    <StyledAdvancedSearch>
+      <h2>Search results for "{searchValue}"</h2>
+      <div className="search-result">
+        <div className="category">
+          {CATEGORIES.map((category: CategoryProps) => {
+            return (
+              <div className="search-result">
+                <div className="category-names">
+                  <div className="category-name">{category.name}</div>
+                </div>
+
+                <SearchDetail filter={category.key} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </StyledAdvancedSearch>
+  );
+};
 const SearchResult = () => {
   const { searchValue } = useSelector(
     (state: RootState | any) => state.albumData
   );
-  const album = useSelector(selectAlbum);
-  console.log(album);
   return (
-    <div style={{display:"flex"}}>
-      {/* <div>SearchResults for {searchValue} </div> */}
-      {/* <Result tile="Top-category" filter="" /> */}
-      <Result tile="Artist" filter="im:artist" />
-      <Result tile="Song" filter="im:name" />
-    </div>
+    <div data-testid="search-result">{searchValue.length > 1 ? <AdvancedSearch /> : <Trending />}</div>
   );
 };
 

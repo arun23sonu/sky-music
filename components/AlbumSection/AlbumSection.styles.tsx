@@ -46,6 +46,13 @@ const StyledAlbumCategory = styled.div`
   .more {
     color: #f0383b;
     cursor: pointer;
+    padding: 0.3em 0.5em;
+    :hover {
+      background-color: #f0383b;
+      color: #fff;
+      border-radius: 10px;
+      padding: 0.3em 0.5em;
+    }
   }
 `;
 export { StyledAlbumSection, StyledAlbumCategory };

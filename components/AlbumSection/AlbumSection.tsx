@@ -13,19 +13,39 @@ import { RootState } from "../../pages/_app";
 interface AlbumCategoryProps {
   filterArtist: string;
 }
-const AlbumCategory = ({ filterArtist }: AlbumCategoryProps) => {
+ const AlbumCategory = ({ filterArtist }: AlbumCategoryProps) => {
   const album = useSelector(selectAlbum);
   const albumList = album?.entry;
   const [length, setLength] = useState(5);
+  const filteredList = albumList
+  ?.filter(
+    (albums: MusicDataProps) =>
+      albums.category.attributes.term ===
+      (filterArtist === "Top 100 Hits"
+        ? albums.category.attributes.term
+        : filterArtist)
+  )
+  ?.slice(0, length)
+  .map((album: MusicDataProps) => {
+    return (
+      <AlbumTile
+        id={album.id.label}
+        artist ={album["im:artist"].label}
+        name={album["im:name"].label}
+        image={album["im:image"][2].label}
+        filteredData={album}
+      />
+    );
+  })  
   return (
     <ThemeProvider theme={"Light" ? LIGHTTHEME : DARKTHEME}>
-      <StyledAlbumCategory key={Math.random()}>
+      <StyledAlbumCategory  >
         <div className="album-head">
           <h3>{filterArtist}</h3>
-          {albumList.length > 4 && (
+          {filteredList.length < length ? null :  (
             <div
               className="more"
-              onClick={() => setLength((prev: number) => prev + 5)}
+              onClick={() => setLength((prev: number) => prev + 15)}
             >
               More
             </div>
@@ -33,25 +53,7 @@ const AlbumCategory = ({ filterArtist }: AlbumCategoryProps) => {
         </div>
 
         <StyledAlbumSection>
-          {albumList
-            ?.filter(
-              (albums: MusicDataProps) =>
-                albums.category.attributes.term ===
-                (filterArtist === "Top 100 Hits"
-                  ? albums.category.attributes.term
-                  : filterArtist)
-            )
-            ?.slice(0, length)
-            .map((album: MusicDataProps) => {
-              return (
-                <AlbumTile
-                  id={album.id.label}
-                  name={album["im:name"].label}
-                  image={album["im:image"][2].label}
-                  filteredData={album}
-                />
-              );
-            })}
+          {filteredList}
         </StyledAlbumSection>
       </StyledAlbumCategory>
     </ThemeProvider>
@@ -65,10 +67,10 @@ const FavoriteSection = () => {
     <StyledAlbumCategory>
       <div className="album-head">
         <h3>Your Favorites</h3>
-        {favorite.length > 5 && (
+        {favorite.length  <= length ? null :  (
           <div
             className="more"
-            onClick={() => setLength((prev: number) => prev + 5)}
+            onClick={() => setLength((prev: number) => prev + 10)}
           >
             More
           </div>
@@ -80,6 +82,7 @@ const FavoriteSection = () => {
           return (
             <AlbumTile
               name={album["im:name"].label}
+              artist ={album["im:artist"].label}
               image={album["im:image"][2].label}
               id={album.id.label}
               hide={true}
@@ -95,14 +98,16 @@ const AlbumSection = () => {
   const { favorite } = useSelector((state: RootState | any) => state.albumData);
 
   return (
-    <div data-testid="album-section" key={Math.random()}>
+    <div data-testid="album-section" >
       {favorite.length > 0 && <FavoriteSection />}
       <AlbumCategory filterArtist="Top 100 Hits" />
       <AlbumCategory filterArtist="Christmas" />
       <AlbumCategory filterArtist="Holiday" />
-      <AlbumCategory filterArtist="Country" />
-      <AlbumCategory filterArtist="Pop" />
       <AlbumCategory filterArtist="Rock" />
+      <AlbumCategory filterArtist="Soundtrack" />
+      <AlbumCategory filterArtist="TV Soundtrack" />
+      <AlbumCategory filterArtist="Country" />
+
     </div>
   );
 };
