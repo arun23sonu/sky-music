@@ -1,11 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import SearchResult from "../components/SearchResult/SearchResult";
 import getStore from "../store";
-import { getAlbum, selectAlbum } from "../store/albumSlice";
+import { getAlbum } from "../store/albumSlice";
 
 const Search = () => {
-  const album = useSelector(selectAlbum)
   return (<div>
     <SearchResult/>
   </div>);

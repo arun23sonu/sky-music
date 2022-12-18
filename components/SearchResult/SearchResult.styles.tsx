@@ -5,9 +5,14 @@ const StyledSearchDetail = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1em;
+  height: 100vh;
+  color: ${(props) => props.theme.song};
 
   .head {
-    color: "#767676";
+    color: ${(props) => props.theme.artist};
+  }
+  h4 {
+    color: ${(props) => props.theme.song};
   }
   @media (max-width: 1080px) {
     h4 {
@@ -24,7 +29,11 @@ const StyledAdvancedSearch = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 2em 15em;
+  background-color: ${(props) => props.theme.backgroundColor};
   gap: 3em;
+  h2 {
+    color: ${(props) => props.theme.song};
+  }
   .category {
     display: flex;
     justify-content: space-between;
@@ -72,10 +81,12 @@ const StyledAdvancedSearch = styled.div`
 const StyledTrendingSearch = styled.div`
   display: flex;
   flex-direction: column;
-  height: 50vh;
+  height: 100vh;
   width: 100vw;
   gap: 2em;
-  justify-content: center;
+  background-color: ${(props) => props.theme.backgroundColor};
+  justify-content: flex-start;
+  padding-block: 10em;
   padding-inline: 10em;
   .trending {
     display: grid;
@@ -83,7 +94,9 @@ const StyledTrendingSearch = styled.div`
     justify-content: space-around;
     grid-template-columns: repeat(6, 1fr);
   }
-
+  h2 {
+    color: ${(props) => props.theme.song};
+  }
   @media (max-width: 1280px) {
     .trending {
       display: grid;

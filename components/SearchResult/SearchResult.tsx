@@ -9,6 +9,11 @@ import {
   StyledSearchDetail,
   StyledTrendingSearch,
 } from "./SearchResult.styles";
+import { ThemeProvider } from "styled-components";
+import {
+  DARKTHEME,
+  LIGHTTHEME,
+} from "../../shared/utils/Constant/themeOptions";
 
 interface CategoryProps {
   name: string;
@@ -19,23 +24,27 @@ interface CategoryProps {
 const Trending = () => {
   const album = useSelector(selectAlbum);
   const albumData = album?.entry;
+  const { theme } = useSelector((state: RootState | any) => state.albumData);
+
   return (
-    <StyledTrendingSearch>
-      <h2>Trending Searches</h2>
-      <div className="trending">
-        {albumData?.slice(7, 13)?.map((album: MusicDataProps) => {
-          return (
-            <AlbumTile
-              name={album["im:name"].label}
-              hide={true}
-              artist={album["im:artist"].label}
-              image={album["im:image"][2].label}
-              id={album.id.label}
-            />
-          );
-        })}
-      </div>
-    </StyledTrendingSearch>
+    <ThemeProvider theme={theme === "Light" ? LIGHTTHEME : DARKTHEME}>
+      <StyledTrendingSearch>
+        <h2>Trending Searches</h2>
+        <div className="trending">
+          {albumData?.slice(7, 13)?.map((album: MusicDataProps) => {
+            return (
+              <AlbumTile
+                name={album["im:name"].label}
+                hide={true}
+                artist={album["im:artist"].label}
+                image={album["im:image"][2].label}
+                id={album.id.label}
+              />
+            );
+          })}
+        </div>
+      </StyledTrendingSearch>
+    </ThemeProvider>
   );
 };
 interface SearchDetailProps {
@@ -87,26 +96,29 @@ const AdvancedSearch = () => {
   const { searchValue } = useSelector(
     (state: RootState | any) => state.albumData
   );
+  const { theme } = useSelector((state: RootState | any) => state.albumData);
 
   return (
-    <StyledAdvancedSearch>
-      <h2>Search results for "{searchValue}"</h2>
-      <div className="search-result">
-        <div className="category">
-          {CATEGORIES.map((category: CategoryProps) => {
-            return (
-              <div className="search-result">
-                <div className="category-names">
-                  <div className="category-name">{category.name}</div>
-                </div>
+    <ThemeProvider theme={theme === "Light" ? LIGHTTHEME : DARKTHEME}>
+      <StyledAdvancedSearch>
+        <h2>Search results for "{searchValue}"</h2>
+        <div className="search-result">
+          <div className="category">
+            {CATEGORIES.map((category: CategoryProps) => {
+              return (
+                <div className="search-result">
+                  <div className="category-names">
+                    <div className="category-name">{category.name}</div>
+                  </div>
 
-                <SearchDetail filter={category.key} />
-              </div>
-            );
-          })}
+                  <SearchDetail filter={category.key} />
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </StyledAdvancedSearch>
+      </StyledAdvancedSearch>
+    </ThemeProvider>
   );
 };
 const SearchResult = () => {
@@ -114,7 +126,9 @@ const SearchResult = () => {
     (state: RootState | any) => state.albumData
   );
   return (
-    <div data-testid="search-result">{searchValue.length > 1 ? <AdvancedSearch /> : <Trending />}</div>
+    <div data-testid="search-result">
+      {searchValue.length > 1 ? <AdvancedSearch /> : <Trending />}
+    </div>
   );
 };
 

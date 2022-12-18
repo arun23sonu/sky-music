@@ -4,6 +4,6 @@ export interface HeaderRightProps {
 }
 
 export interface HeaderOptionsProps {
-    id:number,
-    name:string,
+  id: number;
+  name: string;
 }

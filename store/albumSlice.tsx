@@ -84,6 +84,7 @@ interface AlbumProps {
   error: object;
   searchValue: string;
   favorite:Array<object>;
+  theme: string
 }
 const initialState: AlbumProps = {
   loading: false,
@@ -155,6 +156,7 @@ const initialState: AlbumProps = {
   favorite:[],
   searchValue: "",
   error: {},
+  theme : "Light",
 };
 
 export const getAlbum = createAsyncThunk("album/getAlbum", getMusicData);
@@ -165,6 +167,9 @@ export const albumSlice = createSlice({
   reducers: {
     addsearch: (state, { payload }) => {
       state.searchValue = payload;
+    },
+    addTheme: (state, { payload }) => {
+      state.theme = payload;
     },
     addfavorite: (state, {payload})=>{
       state.favorite=[...state.favorite, payload]

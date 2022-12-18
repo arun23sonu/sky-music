@@ -2,12 +2,11 @@ import styled from "styled-components";
 
 const StyledHeader = styled.div`
   display: flex;
-  background-color: ${(props) => props.theme.backgroundColor};
+  background-color: ${(props) => props.theme.headerBackground};
   color: ${(props) => props.theme.color};
   justify-content: space-evenly;
   width: 100vw;
   height: 10vh;
-  border-bottom: 0.2px solid gray;
   .sky-music {
     width: 100%;
     flex-grow: 0;
@@ -26,7 +25,7 @@ const StyledHeader = styled.div`
     display: none;
   }
   .music {
-    font-size: 2em;
+    font-size: 2.4em;
     height: 10vh;
     display: flex;
     font-weight: 800;
@@ -37,22 +36,31 @@ const StyledHeader = styled.div`
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     align-items: center;
   }
-  button {
-    background-color: #f2f2f2;
+  .search-button {
+    background-color: ${(props) => props.theme.search};
     cursor: pointer;
     height: 5vh;
     width: 3vw;
-    border: 2px solid #f2f2f2;
+    border: 1px solid ${(props) => props.theme.search};
     border-top-right-radius: 5px;
+  }
+  .toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
   }
   .search {
     width: 40vw;
     height: 5vh;
-    border: 2px solid #f2f2f2;
+    border: 1px solid ${(props) => props.theme.search};
     border-top-left-radius: 5px;
     font-size: 1rem;
     outline: none;
     padding-inline: 2em;
+    background-color: ${(props) => props.theme.headerBackground};
+  }
+  .search-icon {
+    color: ${(props) => props.theme.song};
   }
   .search-bar {
     display: flex;
@@ -65,6 +73,7 @@ const StyledHeader = styled.div`
     align-items: center;
     width: 35vw;
   }
+
   .theme {
     display: flex;
     justify-content: center;
@@ -72,9 +81,13 @@ const StyledHeader = styled.div`
   }
   .header-contents {
     font-size: 0.9rem;
+    cursor: pointer;
     font-weight: 550;
     cursor: pointer;
     font-family: sans-serif;
+    :hover {
+      color: #ee575a;
+    }
   }
   a {
     text-decoration: none;
@@ -110,6 +123,9 @@ const StyledHeader = styled.div`
   @media (max-width: 1080px) {
     .header-right {
       display: none;
+    }
+    .music {
+      padding-bottom: 0.1em;
     }
     .search {
       width: 60vw;
@@ -176,6 +192,7 @@ const StyledHeader = styled.div`
     }
     .music {
       font-size: 1.7em;
+      padding-bottom: 0.1em;
     }
     .sky-logo {
       width: 3.5rem;

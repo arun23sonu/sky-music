@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HEADEROPTIONS } from "../../shared/utils/Constant/headerOptions";
 import { albumSlice } from "../../store/albumSlice";
 import { StyledHeader } from "./Header.style";
@@ -14,7 +14,8 @@ import {
   DARKTHEME,
   LIGHTTHEME,
 } from "../../shared/utils/Constant/themeOptions";
-import { HeaderOptionsProps, HeaderRightProps } from "./Header.type";
+import { HeaderOptionsProps } from "./Header.type";
+import { RootState } from "../../pages/_app";
 
 const MobileMenu = ({
   setOpen,
@@ -40,7 +41,7 @@ const MobileMenu = ({
           return <div className="mobile-option">{option.name}</div>;
         })}
       </div>
-      <div className="mobile-footer">footer</div>
+      <div className="mobile-footer"></div>
     </div>
   );
 };
@@ -61,8 +62,8 @@ const SkyMusic = () => {
           <Image
             alt="sky-music"
             src="/sky.png"
-            height={70}
-            width={100}
+            height={75}
+            width={80}
             className="sky-logo"
           />
           <div className="music">Music</div>
@@ -84,26 +85,37 @@ const SearchBar = () => {
           }
           className="search"
         ></input>
-        <button type="submit">
-          <FaSearch size={15} />
+        <button type="submit" className="search-button">
+          <FaSearch size={15} className="search-icon" />
         </button>
       </Link>
     </div>
   );
 };
 
-const HeaderRight = ({ setTheme, theme }: HeaderRightProps) => {
+const HeaderRight = () => {
+  const dispatch = useDispatch();
+  const { theme } = useSelector((state: RootState | any) => state.albumData);
+
   return (
     <div className="header-right">
       <div className="theme">
         {theme === "Dark" ? (
-          <MdOutlineLightMode
-            size={20}
-            color="white"
-            onClick={() => setTheme("Light")}
-          />
+          <button
+            className="toggle"
+            type="submit"
+            onClick={() => dispatch(albumSlice.actions.addTheme("Light"))}
+          >
+            <MdOutlineLightMode className="toggle" size={20} color="white" />
+          </button>
         ) : (
-          <MdDarkMode size={20} onClick={() => setTheme("Dark")} />
+          <button
+            type="submit"
+            className="toggle"
+            onClick={() => dispatch(albumSlice.actions.addTheme("Dark"))}
+          >
+            <MdDarkMode size={20} />
+          </button>
         )}
       </div>
       {HEADEROPTIONS.map((options: HeaderOptionsProps) => {
@@ -117,13 +129,13 @@ const HeaderRight = ({ setTheme, theme }: HeaderRightProps) => {
   );
 };
 const Header = () => {
-  const [theme, setTheme] = useState("Light");
+  const { theme } = useSelector((state: RootState | any) => state.albumData);
   return (
     <ThemeProvider theme={theme === "Light" ? LIGHTTHEME : DARKTHEME}>
       <StyledHeader data-testid="header">
         <SkyMusic />
         <SearchBar />
-        <HeaderRight setTheme={setTheme} theme={theme} />
+        <HeaderRight />
       </StyledHeader>
     </ThemeProvider>
   );

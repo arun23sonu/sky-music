@@ -6,17 +6,31 @@ const StyledAlbumTitle = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 7px 29px 0px;
+  :hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 7px 29px 0px;
+  }
+  a {
+    :hover {
+      text-decoration: underline;
+      color: gray;
+    }
+  }
   .album {
     border-radius: 10px;
     padding-bottom: 1em;
   }
-  h3 {
-    color: #767676;
+  .artist {
+    color: ${(props) => props.theme.artist};
     font-size: 0.7rem;
+    font-weight: 500;
   }
-  h5 {
-    color: #282f35;
+  .song {
+    color: ${(props) => props.theme.song};
     font-size: 1rem;
+    font-weight: 500;
   }
   .heart-icon {
     height: 20px;

@@ -35,13 +35,15 @@ const StyledAlbumCategory = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2em;
-  padding-inline: 5em;
-  margin-block: 5em;
+  padding: 4em;
   background-color: ${(props) => props.theme.backgroundColor};
 
   .album-head {
     display: flex;
     justify-content: space-between;
+  }
+  h3 {
+    color: ${(props) => props.theme.song};
   }
   .more {
     color: #f0383b;
