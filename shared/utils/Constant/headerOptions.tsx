@@ -22,10 +22,12 @@ export   const CATEGORIES = [
       id: 1,
       name: "Artists",
       key: "im:artist",
+      image:"/profile.png"
     },
     {
       id: 1,
       name: "Songs",
       key: "im:name",
+      image:"/music.png"
     },
   ];

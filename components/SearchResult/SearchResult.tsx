@@ -17,10 +17,16 @@ import {
 
 interface CategoryProps {
   name: string;
-  id: number;
-  key: string;
+  id?: number;
+  key?: string;
+  image: string;
 }
 
+interface SearchDetailProps {
+  filter?: string | any;
+  name: string;
+  image: string;
+}
 const Trending = () => {
   const album = useSelector(selectAlbum);
   const albumData = album?.entry;
@@ -47,47 +53,58 @@ const Trending = () => {
     </ThemeProvider>
   );
 };
-interface SearchDetailProps {
-  filter: string;
-}
-const SearchDetail = ({ filter }: SearchDetailProps) => {
+const NoResultComponent = ({ name, image }: CategoryProps) => {
+  return (
+    <div className="no-results">
+      <img src={image} height="80" width="80" />
+
+      <div> No {name} Found</div>
+    </div>
+  );
+};
+const SearchDetail = ({ filter, name, image }: SearchDetailProps) => {
   const albums = useSelector(selectAlbum);
   const { searchValue } = useSelector(
     (state: RootState | any) => state.albumData
   );
+  const searchResult = albums?.entry
+    ?.filter((albumFilter: MusicDataProps | any) =>
+      albumFilter[filter].label
+        .toLowerCase()
+        .includes(searchValue.toLowerCase())
+    )
+    .map((album: MusicDataProps) => {
+      return (
+        <div className="content">
+          <img
+            src={album["im:image"][2].label}
+            height="70px"
+            style={{
+              borderRadius: filter === "im:artist" ? "50px" : "10px",
+            }}
+          />
+          {filter === "im:name" && (
+            <div className="song">
+              <h4>{album["im:name"].label}</h4>
+              <div className="head">Song</div>
+            </div>
+          )}
+          {filter === "im:artist" && (
+            <div className="song">
+              <h4>{album["im:artist"].label}</h4>
+              <div className="head">Artist</div>
+            </div>
+          )}
+        </div>
+      );
+    });
   return (
     <StyledSearchDetail>
-      {albums?.entry
-        ?.filter((albumFilter: MusicDataProps | any) =>
-          albumFilter[filter].label
-            .toLowerCase()
-            .includes(searchValue.toLowerCase())
-        )
-        .map((album: MusicDataProps) => {
-          return (
-            <div className="content">
-              <img
-                src={album["im:image"][2].label}
-                height="70px"
-                style={{
-                  borderRadius: filter === "im:artist" ? "50px" : "10px",
-                }}
-              />
-              {filter === "im:name" && (
-                <div className="song">
-                  <h4>{album["im:name"].label}</h4>
-                  <div className="head">Song</div>
-                </div>
-              )}
-              {filter === "im:artist" && (
-                <div className="song">
-                  <h4>{album["im:artist"].label}</h4>
-                  <div className="head">Artist</div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+      {searchResult.length > 0 ? (
+        searchResult
+      ) : (
+        <NoResultComponent name={name} image={image} />
+      )}
     </StyledSearchDetail>
   );
 };
@@ -111,7 +128,11 @@ const AdvancedSearch = () => {
                     <div className="category-name">{category.name}</div>
                   </div>
 
-                  <SearchDetail filter={category.key} />
+                  <SearchDetail
+                    filter={category.key}
+                    name={category.name}
+                    image={category.image}
+                  />
                 </div>
               );
             })}

@@ -14,6 +14,12 @@ const StyledSearchDetail = styled.div`
   h4 {
     color: ${(props) => props.theme.song};
   }
+  .no-results{
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
+      align-items: center;
+  }
   @media (max-width: 1080px) {
     h4 {
       font-size: 0.7em;
