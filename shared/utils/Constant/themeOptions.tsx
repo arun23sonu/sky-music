@@ -1,6 +1,6 @@
 const LIGHTTHEME = {
     backgroundColor: "white",
-    headerBackground: "#fff",
+    headerBackground: "#FFFFFF",
     color: "black",
     song:"#282F35",
     artist:"#767676",

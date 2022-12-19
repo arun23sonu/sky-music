@@ -7,6 +7,7 @@ const StyledHeader = styled.div`
   justify-content: space-evenly;
   width: 100vw;
   height: 10vh;
+  border-bottom: 0.10px solid gray;
   .sky-music {
     width: 100%;
     flex-grow: 0;
@@ -26,6 +27,7 @@ const StyledHeader = styled.div`
   }
   .music {
     font-size: 2.4em;
+    padding-bottom: 0.1em;
     height: 10vh;
     display: flex;
     font-weight: 800;
@@ -62,6 +64,10 @@ const StyledHeader = styled.div`
   .search-icon {
     color: ${(props) => props.theme.song};
   }
+  .sky-logo{
+    height: 4rem;
+  }
+
   .search-bar {
     display: flex;
     align-items: center;
@@ -191,12 +197,13 @@ const StyledHeader = styled.div`
       align-items: center;
     }
     .music {
-      font-size: 1.7em;
+      font-size: 1.4em;
       padding-bottom: 0.1em;
     }
     .sky-logo {
       width: 3.5rem;
-      height: 2.5rem;
+      height: 2.2rem;
+      object-fit: contain;
     }
     .hamburger {
       display: block;
@@ -209,7 +216,7 @@ const StyledHeader = styled.div`
       width: 100vw;
       display: flex;
       justify-content: flex-start;
-      gap: 2rem;
+      gap: 1rem;
       padding-inline: 2rem;
       flex-shrink: 0;
     }

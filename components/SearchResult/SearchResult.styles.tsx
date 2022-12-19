@@ -102,6 +102,10 @@ const StyledTrendingSearch = styled.div`
   }
   h2 {
     color: ${(props) => props.theme.song};
+    font-size: 1rem;
+    width: 40vw;
+    display: flex;
+    justify-content: flex-start;
   }
   @media (max-width: 1280px) {
     .trending {
